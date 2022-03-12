@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.luisangelservera.androidtodo.R;
 import com.luisangelservera.androidtodo.model.Task;
 
@@ -15,6 +18,8 @@ public class TaskListActivity extends AppCompatActivity {
 
     private ArrayList<Task> tasks = new ArrayList<>();
 
+    private FloatingActionButton addTaskFAB;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +27,14 @@ public class TaskListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task_list);
 
         loadTasks();
+
+        addTaskFAB = findViewById(R.id.addTaskFAB);
+        addTaskFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO add intent to add task activity
+            }
+        });
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
