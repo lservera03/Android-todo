@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AndroidToDo</string>
+    <string name="done_string">Done</string>
 </resources>
