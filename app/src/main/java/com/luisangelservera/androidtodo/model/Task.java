@@ -11,4 +11,12 @@ public class Task {
     }
 
 
+    public boolean isDone() {
+        return this.done;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
 }
