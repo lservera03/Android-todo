@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -32,7 +33,8 @@ public class TaskListActivity extends AppCompatActivity {
         addTaskFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO add intent to add task activity
+                Intent intent = CreateTaskActivity.newIntent(TaskListActivity.this);
+                startActivity(intent);
             }
         });
 

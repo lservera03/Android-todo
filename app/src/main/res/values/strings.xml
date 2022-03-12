@@ -2,4 +2,7 @@
     <string name="app_name">AndroidToDo</string>
     <string name="done_string">Done</string>
     <string name="add_item_string">Add item</string>
+    <string name="save_task_string">Save task</string>
+    <string name="new_task_string">New task</string>
+    <string name="task_title_string">Task title</string>
 </resources>

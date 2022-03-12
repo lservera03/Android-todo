@@ -20,6 +20,7 @@ import java.util.ArrayList;
 public class TaskListFragment extends Fragment {
 
     private MyRecyclerViewAdapter adapter;
+    //TODO check if this is necessary
     private Context context;
 
     private RecyclerView recyclerView;
@@ -30,10 +31,6 @@ public class TaskListFragment extends Fragment {
         this.context = context;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
@@ -46,6 +43,9 @@ public class TaskListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         recyclerView.setAdapter(adapter);
+
+
+        //TODO checkbox listener
 
         return v;
     }
