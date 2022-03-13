@@ -57,12 +57,12 @@ public class TaskListActivity extends AppCompatActivity {
 
 
     private void loadTasks() {
-        //TODO check Strings problems
-        this.tasks.add(new Task("Walk the dog"));
-        this.tasks.add(new Task("Buy bread"));
-        this.tasks.add(new Task("Check La Salle mail"));
-        this.tasks.add(new Task("Prepare today's meetings"));
-        this.tasks.add(new Task("Workout"));
+
+        this.tasks.add(new Task(getString(R.string.first_task_title)));
+        this.tasks.add(new Task(getString(R.string.second_task_title)));
+        this.tasks.add(new Task(getString(R.string.third_task_title)));
+        this.tasks.add(new Task(getString(R.string.fourth_task_title)));
+        this.tasks.add(new Task(getString(R.string.fifth_task_title)));
 
     }
 

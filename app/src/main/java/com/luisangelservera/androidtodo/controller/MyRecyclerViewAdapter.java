@@ -1,6 +1,7 @@
 package com.luisangelservera.androidtodo.controller;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     private ArrayList<Task> tasks;
     private LayoutInflater inflater;
-
 
     public MyRecyclerViewAdapter(Context context, ArrayList<Task> tasks) {
         this.inflater = LayoutInflater.from(context);
@@ -67,6 +67,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 @Override
                 public void onClick(View view) {
                     tasks.get(getAbsoluteAdapterPosition()).setDone(taskDoneCB.isChecked());
+
+                    if (tasks.get(getAbsoluteAdapterPosition()).isDone()) {
+                        tasknameTV.setPaintFlags(tasknameTV.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    } else {
+                        tasknameTV.setPaintFlags(tasknameTV.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                    }
                 }
             });
         }
