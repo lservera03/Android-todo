@@ -62,6 +62,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             super(itemView);
             tasknameTV = itemView.findViewById(R.id.taskNameTV);
             taskDoneCB = itemView.findViewById(R.id.taskDoneCB);
+
+            taskDoneCB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    tasks.get(getAbsoluteAdapterPosition()).setDone(taskDoneCB.isChecked());
+                }
+            });
         }
 
     }

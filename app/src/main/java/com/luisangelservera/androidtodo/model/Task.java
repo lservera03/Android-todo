@@ -19,4 +19,7 @@ public class Task {
         return this.name;
     }
 
+    public void setDone(boolean done) {
+        this.done = done;
+    }
 }

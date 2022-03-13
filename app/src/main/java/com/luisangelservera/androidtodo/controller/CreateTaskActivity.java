@@ -8,22 +8,22 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.luisangelservera.androidtodo.R;
 
 public class CreateTaskActivity extends AppCompatActivity {
 
-    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
 
-/**
- actionBar = getActionBar();
- getSupportActionBar().setDisplayHomeAsUpEnabled(true);
- **/
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.create_task_bar_string);
+
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.create_task_container);
 
@@ -43,6 +43,14 @@ public class CreateTaskActivity extends AppCompatActivity {
 
 
         return intent;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
 }

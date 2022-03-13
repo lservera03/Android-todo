@@ -25,5 +25,14 @@
         android:hint="@string/task_title_string"
         android:minHeight="48dp" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/saveTaskFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/add_item_string"
+        android:src="@drawable/outline_done_24" />
+
 
 </LinearLayout>
