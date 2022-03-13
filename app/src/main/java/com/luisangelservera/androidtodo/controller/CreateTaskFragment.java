@@ -1,5 +1,7 @@
 package com.luisangelservera.androidtodo.controller;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,7 +21,7 @@ import com.luisangelservera.androidtodo.R;
 
 public class CreateTaskFragment extends Fragment {
 
-
+    public static final String NEW_TASK_NAME = "NEW_TASK_NAME";
     private EditText taskNameET;
     private FloatingActionButton saveTaskFAB;
 
@@ -55,7 +57,10 @@ public class CreateTaskFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!taskNameET.getText().toString().equals("")) {
-                    //TODO return information
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra(NEW_TASK_NAME, newTaskName);
+                    getActivity().setResult(Activity.RESULT_OK, returnIntent);
+                    getActivity().finish();
                 } else {
                     Toast.makeText(getContext(), R.string.task_name_error_string, Toast.LENGTH_SHORT).show();
                 }

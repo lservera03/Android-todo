@@ -7,4 +7,5 @@
     <string name="task_title_string">Task title</string>
     <string name="task_name_error_string">Can not save a task without a title.</string>
     <string name="create_task_bar_string">Create task</string>
+    <string name="created_task">New task created successfully</string>
 </resources>

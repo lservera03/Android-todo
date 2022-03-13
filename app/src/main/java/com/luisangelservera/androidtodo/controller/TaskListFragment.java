@@ -52,4 +52,10 @@ public class TaskListFragment extends Fragment {
 
         return v;
     }
+
+
+    public void updateData(int newPosition) {
+        adapter.notifyItemInserted(newPosition);
+    }
+
 }
