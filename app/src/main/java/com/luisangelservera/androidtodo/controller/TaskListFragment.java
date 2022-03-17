@@ -1,10 +1,11 @@
 package com.luisangelservera.androidtodo.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,10 @@ public class TaskListFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<Task> tasks;
 
+    public int positionEdited;
+
+    public static int EDIT_TASK_ACTIVITY = 2;
+
 
     public TaskListFragment(ArrayList<Task> tasks) {
         this.tasks = tasks;
@@ -38,7 +43,15 @@ public class TaskListFragment extends Fragment {
 
         recyclerView = v.findViewById(R.id.taskListRecyclerView);
 
-        adapter = new MyRecyclerViewAdapter(getContext(), tasks);
+        adapter = new MyRecyclerViewAdapter(getContext(), tasks, new MyItemListener() {
+            @Override
+            public void myOnClick(int position) {
+                positionEdited = position;
+                Intent intent = EditTaskActivity.newIntent(getActivity());
+                intent.putExtra(EditTaskActivity.TASK_NAME, tasks.get(position).getName());
+                getActivity().startActivityForResult(intent, EDIT_TASK_ACTIVITY);
+            }
+        });
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
@@ -54,8 +67,18 @@ public class TaskListFragment extends Fragment {
     }
 
 
-    public void updateData(int newPosition) {
+    public void addNewData(int newPosition) {
         adapter.notifyItemInserted(newPosition);
+    }
+
+    public void updateData(int position) {
+        adapter.notifyItemChanged(position);
+    }
+
+    public void setNewTitle(String newName) {
+        tasks.get(positionEdited).setName(newName);
+
+        updateData(positionEdited);
     }
 
 }

@@ -76,10 +76,17 @@ public class TaskListActivity extends AppCompatActivity {
                 String newTaskName = data.getStringExtra(CreateTaskFragment.NEW_TASK_NAME);
                 tasks.add(new Task(newTaskName));
                 TaskListFragment taskFragment = (TaskListFragment) fragment;
-                taskFragment.updateData(tasks.size() - 1);
+                taskFragment.addNewData(tasks.size() - 1);
 
                 Toast.makeText(TaskListActivity.this, R.string.created_task, Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == TaskListFragment.EDIT_TASK_ACTIVITY) {
+            String newName = data.getStringExtra(EditTaskActivity.TASK_NAME);
+
+
+            TaskListFragment fragment = (TaskListFragment) this.fragment;
+
+            fragment.setNewTitle(newName);
         }
     }
 

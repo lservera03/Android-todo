@@ -22,10 +22,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     private ArrayList<Task> tasks;
     private LayoutInflater inflater;
+    private MyItemListener listener;
 
-    public MyRecyclerViewAdapter(Context context, ArrayList<Task> tasks) {
+    public MyRecyclerViewAdapter(Context context, ArrayList<Task> tasks, MyItemListener listener) {
         this.inflater = LayoutInflater.from(context);
         this.tasks = tasks;
+        this.listener = listener;
     }
 
 
@@ -44,6 +46,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.taskDoneCB.setActivated(task.isDone());
         holder.tasknameTV.setText(task.getName());
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.myOnClick(holder.getAbsoluteAdapterPosition());
+                }
+            }
+        });
     }
 
 
@@ -57,6 +67,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         private TextView tasknameTV;
         private CheckBox taskDoneCB;
+
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -75,6 +86,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     }
                 }
             });
+
+
         }
 
     }

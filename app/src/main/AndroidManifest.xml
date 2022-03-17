@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidToDo">
         <activity
+            android:name=".controller.EditTaskActivity"
+            android:exported="false" />
+        <activity
             android:name=".controller.CreateTaskActivity"
             android:exported="false" />
         <activity
