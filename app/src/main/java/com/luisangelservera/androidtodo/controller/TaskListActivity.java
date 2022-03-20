@@ -58,11 +58,19 @@ public class TaskListActivity extends AppCompatActivity {
 
     private void loadTasks() {
 
-        this.tasks.add(new Task(getString(R.string.first_task_title)));
-        this.tasks.add(new Task(getString(R.string.second_task_title)));
-        this.tasks.add(new Task(getString(R.string.third_task_title)));
-        this.tasks.add(new Task(getString(R.string.fourth_task_title)));
-        this.tasks.add(new Task(getString(R.string.fifth_task_title)));
+        ArrayList<Task> tasksSP = SharedPreferencesManager.getTasks(this);
+
+        if (tasksSP == null) {
+            this.tasks.add(new Task(getString(R.string.first_task_title)));
+            this.tasks.add(new Task(getString(R.string.second_task_title)));
+            this.tasks.add(new Task(getString(R.string.third_task_title)));
+            this.tasks.add(new Task(getString(R.string.fourth_task_title)));
+            this.tasks.add(new Task(getString(R.string.fifth_task_title)));
+
+            SharedPreferencesManager.saveTasks(this, tasks);
+        } else {
+            this.tasks.addAll(tasksSP);
+        }
 
     }
 
@@ -81,12 +89,14 @@ public class TaskListActivity extends AppCompatActivity {
                 Toast.makeText(TaskListActivity.this, R.string.created_task, Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == TaskListFragment.EDIT_TASK_ACTIVITY) {
-            String newName = data.getStringExtra(EditTaskActivity.TASK_NAME);
+            if (resultCode == Activity.RESULT_OK) {
+                String newName = data.getStringExtra(EditTaskActivity.TASK_NAME);
 
 
-            TaskListFragment fragment = (TaskListFragment) this.fragment;
+                TaskListFragment fragment = (TaskListFragment) this.fragment;
 
-            fragment.setNewTitle(newName);
+                fragment.setNewTitle(newName);
+            }
         }
     }
 

@@ -69,16 +69,22 @@ public class TaskListFragment extends Fragment {
 
     public void addNewData(int newPosition) {
         adapter.notifyItemInserted(newPosition);
+
+        SharedPreferencesManager.saveTasks(getActivity(), tasks);
     }
 
     public void updateData(int position) {
         adapter.notifyItemChanged(position);
+
+        SharedPreferencesManager.saveTasks(getActivity(), tasks);
     }
 
     public void setNewTitle(String newName) {
         tasks.get(positionEdited).setName(newName);
 
         updateData(positionEdited);
+
+        SharedPreferencesManager.saveTasks(getActivity(), tasks);
     }
 
 }
