@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -72,31 +75,31 @@ public class TaskListActivity extends AppCompatActivity {
 
         ArrayList<Task> tasksSP = SharedPreferencesManager.getTasks(this);
 
-        //TODO control shared preferences problem
-        //if (tasksSP == null) {
 
-        APIClient.getInstance().getTasks(new Callback<List<Task>>() {
-            @Override
-            public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
-                Log.d("ANDROID_TODO", "GET TASKS REQUEST OK");
-                if (response.body() != null) {
-                    tasks.addAll(response.body());
-                    ((TaskListFragment) fragment).updateUI();
+        if (isNetworkAvailable()) {
+
+            APIClient.getInstance().getTasks(new Callback<List<Task>>() {
+                @Override
+                public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
+                    Log.d("ANDROID_TODO", "GET TASKS REQUEST OK");
+                    if (response.body() != null) {
+                        tasks.addAll(response.body());
+                        SharedPreferencesManager.saveTasks(TaskListActivity.this, tasks);
+                        ((TaskListFragment) fragment).updateUI();
+                    }
+
                 }
 
-            }
-
-            @Override
-            public void onFailure(Call<List<Task>> call, Throwable t) {
-                Log.d("ANDROID_TODO", "GET TASKS REQUEST KO");
-            }
-        });
+                @Override
+                public void onFailure(Call<List<Task>> call, Throwable t) {
+                    Log.d("ANDROID_TODO", "GET TASKS REQUEST KO");
+                }
+            });
 
 
-        SharedPreferencesManager.saveTasks(this, tasks);
-        //} else {
-        //  this.tasks.addAll(tasksSP);
-        //}
+        } else {
+            this.tasks.addAll(tasksSP);
+        }
 
     }
 
@@ -156,5 +159,14 @@ public class TaskListActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 
 }
