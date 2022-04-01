@@ -36,6 +36,7 @@ public class TaskListActivity extends AppCompatActivity {
     private Fragment fragment;
 
     private Task newTask;
+    private String newName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +109,7 @@ public class TaskListActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 String newTaskName = data.getStringExtra(CreateTaskFragment.NEW_TASK_NAME);
                 newTask = new Task(newTaskName);
-                
+
                 APIClient.getInstance().createTask(new Callback<Task>() {
                     @Override
                     public void onResponse(Call<Task> call, Response<Task> response) {
@@ -130,11 +131,28 @@ public class TaskListActivity extends AppCompatActivity {
             }
         } else if (requestCode == TaskListFragment.EDIT_TASK_ACTIVITY) {
             if (resultCode == Activity.RESULT_OK) {
-                String newName = data.getStringExtra(EditTaskActivity.TASK_NAME);
 
-                //TODO edit task PUT petition
+                newName = data.getStringExtra(EditTaskActivity.TASK_NAME);
+                Task edited = ((TaskListFragment) fragment).getTaskEdited();
 
-                ((TaskListFragment) fragment).setNewTitle(newName);
+                edited.setTitle(newName);
+
+                APIClient.getInstance().updateTask(new Callback<Task>() {
+                    @Override
+                    public void onResponse(Call<Task> call, Response<Task> response) {
+                        Log.d("ANDROID_TODO", "UPDATE TASK REQUEST OK");
+                        ((TaskListFragment) fragment).setNewTitle(newName);
+                        Toast.makeText(TaskListActivity.this, R.string.updated_task, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Task> call, Throwable t) {
+                        Log.d("ANDROID_TODO", "UPDATE TASK REQUEST KO");
+                        Toast.makeText(TaskListActivity.this, R.string.error_updated_task, Toast.LENGTH_SHORT).show();
+                    }
+                }, edited);
+
+
             }
         }
     }

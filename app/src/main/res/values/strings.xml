@@ -9,7 +9,9 @@
     <string name="task_name_error_string">Can not save a task without a title.</string>
     <string name="create_task_bar_string">Create task</string>
     <string name="created_task">New task created successfully</string>
-    <string name="error_created_task">An error occured while saving the task</string>
+    <string name="error_created_task">An error occurred while saving the task</string>
+    <string name="updated_task">Task updated successfully</string>
+    <string name="error_updated_task">An error occurred while updating the task</string>
     <string name="first_task_title">Walk the dog</string>
     <string name="second_task_title">Buy bread</string>
     <string name="third_task_title">Check La Salle mail</string>

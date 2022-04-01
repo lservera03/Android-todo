@@ -87,6 +87,10 @@ public class TaskListFragment extends Fragment {
         SharedPreferencesManager.saveTasks(getActivity(), tasks);
     }
 
+    public Task getTaskEdited() {
+        return tasks.get(positionEdited);
+    }
+
     public void updateUI() {
         adapter.notifyDataSetChanged();
     }
