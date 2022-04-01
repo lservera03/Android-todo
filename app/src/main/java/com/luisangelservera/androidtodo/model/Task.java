@@ -24,6 +24,8 @@ public class Task implements Serializable {
 
     public Task(String title) {
         this.title = title;
+        this.userId = 1;
+        this.completed = false;
     }
 
     public String getTitle() {

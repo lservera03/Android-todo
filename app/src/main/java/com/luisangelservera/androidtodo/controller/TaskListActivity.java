@@ -35,6 +35,7 @@ public class TaskListActivity extends AppCompatActivity {
     private final int CREATE_TASK_ACTIVITY = 1;
     private Fragment fragment;
 
+    private Task newTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class TaskListActivity extends AppCompatActivity {
         APIClient.getInstance().getTasks(new Callback<List<Task>>() {
             @Override
             public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
-                Log.d("ANDROID_TODO", "REQUEST OK");
+                Log.d("ANDROID_TODO", "GET TASKS REQUEST OK");
                 if (response.body() != null) {
                     tasks.addAll(response.body());
                     ((TaskListFragment) fragment).updateUI();
@@ -86,7 +87,7 @@ public class TaskListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Task>> call, Throwable t) {
-                Log.d("ANDROID_TODO", "REQUEST KO");
+                Log.d("ANDROID_TODO", "GET TASKS REQUEST KO");
             }
         });
 
@@ -106,20 +107,34 @@ public class TaskListActivity extends AppCompatActivity {
         if (requestCode == CREATE_TASK_ACTIVITY) {
             if (resultCode == Activity.RESULT_OK) {
                 String newTaskName = data.getStringExtra(CreateTaskFragment.NEW_TASK_NAME);
-                tasks.add(new Task(newTaskName));
-                TaskListFragment taskFragment = (TaskListFragment) fragment;
-                taskFragment.addNewData(tasks.size() - 1);
+                newTask = new Task(newTaskName);
+                
+                APIClient.getInstance().createTask(new Callback<Task>() {
+                    @Override
+                    public void onResponse(Call<Task> call, Response<Task> response) {
+                        Log.d("ANDROID_TODO", "CREATE TASK REQUEST OK");
+                        tasks.add(newTask);
+                        TaskListFragment taskFragment = (TaskListFragment) fragment;
+                        taskFragment.addNewData(tasks.size() - 1);
+                        Toast.makeText(TaskListActivity.this, R.string.created_task, Toast.LENGTH_SHORT).show();
+                    }
 
-                Toast.makeText(TaskListActivity.this, R.string.created_task, Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onFailure(Call<Task> call, Throwable t) {
+                        Log.d("ANDROID_TODO", "CREATE TASK REQUEST KO");
+                        Toast.makeText(TaskListActivity.this, R.string.error_created_task, Toast.LENGTH_SHORT).show();
+                    }
+                }, newTask);
+
+
             }
         } else if (requestCode == TaskListFragment.EDIT_TASK_ACTIVITY) {
             if (resultCode == Activity.RESULT_OK) {
                 String newName = data.getStringExtra(EditTaskActivity.TASK_NAME);
 
+                //TODO edit task PUT petition
 
-                TaskListFragment fragment = (TaskListFragment) this.fragment;
-
-                fragment.setNewTitle(newName);
+                ((TaskListFragment) fragment).setNewTitle(newName);
             }
         }
     }

@@ -40,4 +40,8 @@ public class APIClient {
         this.service.getTasks().enqueue(callback);
     }
 
+    public void createTask(Callback<Task> callback, Task task) {
+        this.service.createTask(task).enqueue(callback);
+    }
+
 }
