@@ -48,7 +48,7 @@ public class TaskListFragment extends Fragment {
             public void myOnClick(int position) {
                 positionEdited = position;
                 Intent intent = EditTaskActivity.newIntent(getActivity());
-                intent.putExtra(EditTaskActivity.TASK_NAME, tasks.get(position).getName());
+                intent.putExtra(EditTaskActivity.TASK_NAME, tasks.get(position).getTitle());
                 getActivity().startActivityForResult(intent, EDIT_TASK_ACTIVITY);
             }
         });
@@ -80,11 +80,15 @@ public class TaskListFragment extends Fragment {
     }
 
     public void setNewTitle(String newName) {
-        tasks.get(positionEdited).setName(newName);
+        tasks.get(positionEdited).setTitle(newName);
 
         updateData(positionEdited);
 
         SharedPreferencesManager.saveTasks(getActivity(), tasks);
+    }
+
+    public void updateUI() {
+        adapter.notifyDataSetChanged();
     }
 
 }

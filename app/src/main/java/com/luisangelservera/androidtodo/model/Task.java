@@ -1,29 +1,40 @@
 package com.luisangelservera.androidtodo.model;
 
-public class Task {
 
+import java.io.Serializable;
 
-    private String name;
-    private boolean done;
+public class Task implements Serializable {
 
-    public Task(String name) {
-        this.name = name;
+    private Integer userId;
+    private Integer id;
+    private String title;
+    private Boolean completed;
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-
-    public boolean isDone() {
-        return this.done;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return this.name;
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
     }
 
-    public void setDone(boolean done) {
-        this.done = done;
+    public Task(String title) {
+        this.title = title;
     }
 
-    public void setName(String newName) {
-        this.name = newName;
+    public String getTitle() {
+        return title;
+    }
+
+    public Boolean getCompleted() {
+        return completed;
+    }
+
+    public void setTitle(String newName) {
+        this.title = newName;
     }
 }

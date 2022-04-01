@@ -7,14 +7,24 @@ import androidx.fragment.app.FragmentManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.luisangelservera.androidtodo.R;
 import com.luisangelservera.androidtodo.model.Task;
+import com.luisangelservera.androidtodo.model.api.APIClient;
+import com.luisangelservera.androidtodo.model.api.JsonPlaceHolderAPI;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TaskListActivity extends AppCompatActivity {
 
@@ -60,17 +70,31 @@ public class TaskListActivity extends AppCompatActivity {
 
         ArrayList<Task> tasksSP = SharedPreferencesManager.getTasks(this);
 
-        if (tasksSP == null) {
-            this.tasks.add(new Task(getString(R.string.first_task_title)));
-            this.tasks.add(new Task(getString(R.string.second_task_title)));
-            this.tasks.add(new Task(getString(R.string.third_task_title)));
-            this.tasks.add(new Task(getString(R.string.fourth_task_title)));
-            this.tasks.add(new Task(getString(R.string.fifth_task_title)));
+        //TODO control shared preferences problem
+        //if (tasksSP == null) {
 
-            SharedPreferencesManager.saveTasks(this, tasks);
-        } else {
-            this.tasks.addAll(tasksSP);
-        }
+        APIClient.getInstance().getTasks(new Callback<List<Task>>() {
+            @Override
+            public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
+                Log.d("ANDROID_TODO", "REQUEST OK");
+                if (response.body() != null) {
+                    tasks.addAll(response.body());
+                    ((TaskListFragment) fragment).updateUI();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Task>> call, Throwable t) {
+                Log.d("ANDROID_TODO", "REQUEST KO");
+            }
+        });
+
+
+        SharedPreferencesManager.saveTasks(this, tasks);
+        //} else {
+        //  this.tasks.addAll(tasksSP);
+        //}
 
     }
 

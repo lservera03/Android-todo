@@ -43,8 +43,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Task task = tasks.get(position);
 
-        holder.taskDoneCB.setActivated(task.isDone());
-        holder.tasknameTV.setText(task.getName());
+        holder.taskDoneCB.setChecked(task.getCompleted());
+        holder.tasknameTV.setText(task.getTitle());
+
+        if (task.getCompleted()) {
+            holder.tasknameTV.setPaintFlags(holder.tasknameTV.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            holder.tasknameTV.setPaintFlags(holder.tasknameTV.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,9 +83,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             taskDoneCB.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    tasks.get(getAbsoluteAdapterPosition()).setDone(taskDoneCB.isChecked());
+                    tasks.get(getAbsoluteAdapterPosition()).setCompleted(taskDoneCB.isChecked());
 
-                    if (tasks.get(getAbsoluteAdapterPosition()).isDone()) {
+                    if (tasks.get(getAbsoluteAdapterPosition()).getCompleted()) {
                         tasknameTV.setPaintFlags(tasknameTV.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     } else {
                         tasknameTV.setPaintFlags(tasknameTV.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
